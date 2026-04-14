@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      port: 10301,
+      port: Number(env.VITE_BASE_PORT),
       host: "0.0.0.0",
       cors: true,
       headers: {

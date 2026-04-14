@@ -4,6 +4,7 @@
 
 - 乾坤
 - 若依plus微前端
+- 项目来源：[https://github.com/rolkey/RuoYi-Cloud-Plus-2.x-UI-HIS-Base](https://github.com/rolkey/RuoYi-Cloud-Plus-2.x-UI-HIS-Base)
 
 ## 编译参数
 
