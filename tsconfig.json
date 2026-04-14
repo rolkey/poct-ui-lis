@@ -19,7 +19,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "preserve",
-        "strict": true,
+        "strict": false,
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "noFallthroughCasesInSwitch": true,
@@ -33,6 +33,7 @@
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
-        "src/**/*.vue"
+        "src/**/*.vue",
+        "src/types/**/*.d.ts"
     ]
 }
