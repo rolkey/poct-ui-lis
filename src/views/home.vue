@@ -13,14 +13,14 @@
 </template>
 
 <script setup lang="ts">
-const msgBus = (window as any).__QIANKUN_MSG_BUS__;
+const msgBus = (window as any).__QIANKUN_MSG_BUS__ as IMessageBus;
 
 function testMsgBus() {
   if (msgBus) {
-    console.log('消息总线可用:', msgBus);
-    msgBus.emit('m_logout');
+    console.log("消息总线可用:", msgBus);
+    msgBus.emit("m_logout");
   } else {
-    console.log('独立运行模式');
+    console.log("独立运行模式");
   }
 }
 </script>

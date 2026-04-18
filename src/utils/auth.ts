@@ -1,7 +1,7 @@
 import { useStorage } from "@vueuse/core";
 
 const TokenKey = "Admin-Token";
-const msgBus = () => (window as any).__QIANKUN_MSG_BUS__;
+const msgBus = (): IMessageBus => (window as any).__QIANKUN_MSG_BUS__ as IMessageBus;
 
 const tokenStorage = useStorage<null | string>(TokenKey, null);
 

@@ -22,7 +22,7 @@ interface RouteItem {
 
 const basePath = import.meta.env.VITE_BASE_PATH;
 const modules = import.meta.glob("@/views/**/*.vue");
-const msgBus = () => (window as any).__QIANKUN_MSG_BUS__;
+const msgBus = (): IMessageBus => (window as any).__QIANKUN_MSG_BUS__ as IMessageBus;
 
 export const loadView = (view: string): (() => Promise<any>) | null => {
   msgBus().on("m_getModules" + basePath, () => msgBus().emit("c_getModules" + basePath, modules));
@@ -54,7 +54,7 @@ export function loadRouters(): void {
           if (item.meta?.component) {
             item.component = loadView(item.meta?.component || "");
             item.path = "/" + item.path;
-            router.addRoute(item as RouteRecordRaw);
+            router.addRoute(item as unknown as RouteRecordRaw);
           } else {
             console.log(basePath + " not found component:", item);
           }
