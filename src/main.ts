@@ -7,6 +7,9 @@ import router from "./router";
 import store from "./store";
 import "uno.css";
 
+// 注册插件
+import plugins from "./plugins/index"; // plugins
+
 import ElementPlus from "element-plus";
 import "element-plus/theme-chalk/dark/css-vars.css";
 import "element-plus/dist/index.css";
@@ -15,6 +18,7 @@ import locale from "element-plus/es/locale/lang/zh-cn";
 import "@/assets/styles/index.scss";
 
 import { loadRouters } from "./router/routerLoader";
+import { useServiceStore } from "./store/modules/services";
 
 const appName = import.meta.env.VITE_BASE_PATH;
 const microAppName = appName.substr(1);
@@ -29,12 +33,16 @@ const render = (container?: any) => {
 
   app.use(store);
 
+  // TODO: 读取服务配置
+
   // 读取主应用路由
   loadRouters();
   app.use(ElementPlus, {
     locale: locale,
   });
+  useServiceStore().init();
   app.use(router);
+  app.use(plugins);
   app.mount(appDom);
 };
 

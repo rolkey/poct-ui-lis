@@ -8,12 +8,12 @@ import { ServiceItem } from "@/types/service";
  * 用于管理页面标签、缓存和iframe视图
  */
 export const useServiceStore = defineStore("service", () => {
-  const servicePres = ref<ServiceItem>();
+  const apiUrl = ref<ServiceItem>();
 
   const init = async (): Promise<void> => {
     try {
       // 2. 发起请求
-      const response = await fetch("/service.json");
+      const response = await fetch(import.meta.env.VITE_BASE_PATH + "/service.json");
 
       // 3. 检查请求是否成功
       if (!response.ok) {
@@ -22,7 +22,7 @@ export const useServiceStore = defineStore("service", () => {
 
       // 4. 使用 .json() 方法解析响应体
       const appList = await response.json();
-      servicePres.value = appList[process.env.NODE_ENV];
+      apiUrl.value = appList[process.env.NODE_ENV];
 
       // 5. 返回解析后的数据
       return;
@@ -34,7 +34,7 @@ export const useServiceStore = defineStore("service", () => {
   };
 
   return {
-    servicePres,
+    apiUrl,
 
     init,
   };

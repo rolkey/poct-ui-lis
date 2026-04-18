@@ -1,0 +1,8 @@
+{
+    "development": {
+        "hisList": "his-list"
+    },
+    "production": {
+        "hisList": "his-list"
+    }
+}
