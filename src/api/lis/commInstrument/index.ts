@@ -7,7 +7,7 @@ import {
 } from "@/api/lis/commInstrument/types";
 import { useServiceStore } from "@/store/modules/services";
 
-const hisList = () => useServiceStore().apiUrl.hisList;
+const hisLis = () => useServiceStore().apiUrl.hisLis;
 
 /**
  * 查询仪器列表
@@ -18,7 +18,7 @@ export const listCommInstrument = (
   query?: CommInstrumentQuery,
 ): AxiosPromise<CommInstrumentVO[]> => {
   return request({
-    url: `/${hisList()}/commInstrument/list`,
+    url: `/${hisLis()}/commInstrument/list`,
     method: "get",
     params: query,
   });
@@ -32,7 +32,7 @@ export const getCommInstrument = (
   instrumentId: string | number,
 ): AxiosPromise<CommInstrumentVO> => {
   return request({
-    url: `/${hisList()}/commInstrument/${instrumentId}`,
+    url: `/${hisLis()}/commInstrument/${instrumentId}`,
     method: "get",
   });
 };
@@ -43,7 +43,7 @@ export const getCommInstrument = (
  */
 export const addCommInstrument = (data: CommInstrumentForm) => {
   return request({
-    url: `/${hisList()}/commInstrument`,
+    url: `/${hisLis()}/commInstrument`,
     method: "post",
     data: data,
   });
@@ -55,7 +55,7 @@ export const addCommInstrument = (data: CommInstrumentForm) => {
  */
 export const updateCommInstrument = (data: CommInstrumentForm) => {
   return request({
-    url: `/${hisList()}/commInstrument`,
+    url: `/${hisLis()}/commInstrument`,
     method: "put",
     data: data,
   });
@@ -67,7 +67,7 @@ export const updateCommInstrument = (data: CommInstrumentForm) => {
  */
 export const delCommInstrument = (instrumentId: string | number | Array<string | number>) => {
   return request({
-    url: `/${hisList()}/commInstrument/${instrumentId}`,
+    url: `/${hisLis()}/commInstrument/${instrumentId}`,
     method: "delete",
   });
 };

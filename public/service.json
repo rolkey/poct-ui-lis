@@ -1,8 +1,8 @@
 {
     "development": {
-        "hisList": "his-list"
+        "hisLis": "his-lis-rk"
     },
     "production": {
-        "hisList": "his-list"
+        "hisLis": "his-lis"
     }
 }

@@ -1,6 +1,10 @@
-import type { PropType as VuePropType, ComponentInternalInstance as ComponentInstance, ComponentCustomProperties } from 'vue';
-import { LanguageEnum } from '@/enums/LanguageEnum';
-import modal from '@/plugins/modal';
+import type {
+  PropType as VuePropType,
+  ComponentInternalInstance as ComponentInstance,
+  ComponentCustomProperties,
+} from "vue";
+import { LanguageEnum } from "@/enums/LanguageEnum";
+import modal from "@/plugins/modal";
 
 declare global {
   interface ComponentCustomProperties {
@@ -147,7 +151,7 @@ declare global {
     /**
      * 布局大小
      */
-    size: 'large' | 'default' | 'small';
+    size: "large" | "default" | "small";
 
     /**
      * 语言
@@ -165,6 +169,15 @@ declare global {
      * false: 明亮模式
      */
     dark: boolean;
+  }
+
+  declare interface RequestOptions {
+    url: string;
+    method?: "get" | "post" | "put" | "delete" | "patch";
+    params?: Record<string, any>;
+    data?: any;
+    requestId?: string;
+    [key: string]: any; // 允许其他任意属性
   }
 }
 export {};

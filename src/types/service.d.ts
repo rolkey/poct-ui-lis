@@ -1,3 +1,3 @@
 export interface ServiceItem {
-  hisList: string;
+  hisLis: string;
 }
