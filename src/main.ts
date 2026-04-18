@@ -35,6 +35,7 @@ const microAppName = appName.substr(1);
 
 // 国际化
 import i18n from "@/lang/index";
+import directive from "./directive";
 
 let app: ReturnType<typeof createApp> | null = null;
 
@@ -60,6 +61,8 @@ const render = (container?: any) => {
   app.use(router);
   app.use(i18n);
   app.use(plugins);
+  directive(app);
+
   app.mount(appDom);
 };
 
