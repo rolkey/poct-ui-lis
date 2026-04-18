@@ -20,8 +20,21 @@ import "@/assets/styles/index.scss";
 import { loadRouters } from "./router/routerLoader";
 import { useServiceStore } from "./store/modules/services";
 
+// 高亮组件
+// import 'highlight.js/styles/a11y-light.css';
+import "highlight.js/styles/atom-one-dark.css";
+import "highlight.js/lib/common";
+import HighLight from "@highlightjs/vue-plugin";
+
+// svg图标
+import "virtual:svg-icons-register";
+import ElementIcons from "@/plugins/svgicon";
+
 const appName = import.meta.env.VITE_BASE_PATH;
 const microAppName = appName.substr(1);
+
+// 国际化
+import i18n from "@/lang/index";
 
 let app: ReturnType<typeof createApp> | null = null;
 
@@ -41,7 +54,11 @@ const render = (container?: any) => {
     locale: locale,
   });
   useServiceStore().init();
+  app.use(HighLight);
+  app.use(ElementIcons);
+
   app.use(router);
+  app.use(i18n);
   app.use(plugins);
   app.mount(appDom);
 };
