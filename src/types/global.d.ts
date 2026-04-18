@@ -1,7 +1,11 @@
-import type { PropType as VuePropType, ComponentInternalInstance as ComponentInstance } from 'vue';
+import type { PropType as VuePropType, ComponentInternalInstance as ComponentInstance, ComponentCustomProperties } from 'vue';
 import { LanguageEnum } from '@/enums/LanguageEnum';
+import modal from '@/plugins/modal';
 
 declare global {
+  interface ComponentCustomProperties {
+    $modal: typeof modal;
+  }
   /** vue Instance */
   declare type ComponentInternalInstance = ComponentInstance;
 

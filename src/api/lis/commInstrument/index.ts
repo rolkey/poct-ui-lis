@@ -1,18 +1,26 @@
-import request from '@/utils/request';
-import { AxiosPromise } from 'axios';
-import { CommInstrumentVO, CommInstrumentForm, CommInstrumentQuery } from '@/api/lis/commInstrument/types';
+import request from "@/utils/request";
+import { AxiosPromise } from "axios";
+import {
+  CommInstrumentVO,
+  CommInstrumentForm,
+  CommInstrumentQuery,
+} from "@/api/lis/commInstrument/types";
+import { useServiceStore } from "@/store/modules/services";
+
+const hisList = () => useServiceStore().apiUrl.hisList;
 
 /**
  * 查询仪器列表
  * @param query
  * @returns {*}
  */
-
-export const listCommInstrument = (query?: CommInstrumentQuery): AxiosPromise<CommInstrumentVO[]> => {
+export const listCommInstrument = (
+  query?: CommInstrumentQuery,
+): AxiosPromise<CommInstrumentVO[]> => {
   return request({
-    url: '/lis/commInstrument/list',
-    method: 'get',
-    params: query
+    url: `/${hisList()}/commInstrument/list`,
+    method: "get",
+    params: query,
   });
 };
 
@@ -20,10 +28,12 @@ export const listCommInstrument = (query?: CommInstrumentQuery): AxiosPromise<Co
  * 查询仪器详细
  * @param instrumentId
  */
-export const getCommInstrument = (instrumentId: string | number): AxiosPromise<CommInstrumentVO> => {
+export const getCommInstrument = (
+  instrumentId: string | number,
+): AxiosPromise<CommInstrumentVO> => {
   return request({
-    url: '/lis/commInstrument/' + instrumentId,
-    method: 'get'
+    url: `/${hisList()}/commInstrument/${instrumentId}`,
+    method: "get",
   });
 };
 
@@ -33,9 +43,9 @@ export const getCommInstrument = (instrumentId: string | number): AxiosPromise<C
  */
 export const addCommInstrument = (data: CommInstrumentForm) => {
   return request({
-    url: '/lis/commInstrument',
-    method: 'post',
-    data: data
+    url: `/${hisList()}/commInstrument`,
+    method: "post",
+    data: data,
   });
 };
 
@@ -45,9 +55,9 @@ export const addCommInstrument = (data: CommInstrumentForm) => {
  */
 export const updateCommInstrument = (data: CommInstrumentForm) => {
   return request({
-    url: '/lis/commInstrument',
-    method: 'put',
-    data: data
+    url: `/${hisList()}/commInstrument`,
+    method: "put",
+    data: data,
   });
 };
 
@@ -57,7 +67,7 @@ export const updateCommInstrument = (data: CommInstrumentForm) => {
  */
 export const delCommInstrument = (instrumentId: string | number | Array<string | number>) => {
   return request({
-    url: '/lis/commInstrument/' + instrumentId,
-    method: 'delete'
+    url: `/${hisList()}/commInstrument/${instrumentId}`,
+    method: "delete",
   });
 };
