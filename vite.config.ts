@@ -1,16 +1,15 @@
 import { defineConfig, loadEnv } from "vite";
-import vue from "@vitejs/plugin-vue";
-import UnoCSS from "unocss/vite";
-// import UnoCSS from "@unocss/vite";
-import qiankun from "vite-plugin-qiankun";
 import path from "path";
+import qiankun from "vite-plugin-qiankun";
+import createPlugins from "./vite/plugins";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
+  const plugins = createPlugins({ VITE_BASE_PATH: env.VITE_BASE_PATH }, true);
 
   return {
     base: env.VITE_BASE_PATH,
-    plugins: [vue(), UnoCSS(), qiankun("vue3", { useDevMode: true })],
+    plugins,
     // plugins: [vue(), qiankun("vue3", { useDevMode: true })],
     resolve: {
       alias: {
