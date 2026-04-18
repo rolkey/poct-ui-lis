@@ -210,7 +210,7 @@ import {
   CommInstrumentQuery,
   CommInstrumentForm,
 } from "@/api/lis/commInstrument/types";
-import { ComponentInternalInstance, getCurrentInstance, reactive, ref, toRefs } from 'vue';
+import { ComponentInternalInstance, getCurrentInstance, reactive, ref, toRefs } from "vue";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 

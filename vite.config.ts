@@ -1,6 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
 import path from "path";
-import qiankun from "vite-plugin-qiankun";
 import createPlugins from "./vite/plugins";
 
 export default defineConfig(({ mode }) => {
@@ -10,7 +9,6 @@ export default defineConfig(({ mode }) => {
   return {
     base: env.VITE_BASE_PATH,
     plugins,
-    // plugins: [vue(), qiankun("vue3", { useDevMode: true })],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
