@@ -2,7 +2,7 @@ export interface ChargeItemVO {
   /**
    * 诊疗项目ID
    */
-  chargeItemId: string | number;
+  chargeItemId: string;
 
   /**
    * 诊疗项目名称
@@ -228,7 +228,6 @@ export interface ChargeItemVO {
    * 体检关联码
    */
   pesId: string | number;
-
 }
 
 export interface ChargeItemForm extends BaseEntity {
@@ -461,11 +460,9 @@ export interface ChargeItemForm extends BaseEntity {
    * 体检关联码
    */
   pesId?: string | number;
-
 }
 
 export interface ChargeItemQuery extends PageQuery {
-
   /**
    * 诊疗项目名称
    */
@@ -696,6 +693,3 @@ export interface ChargeItemQuery extends PageQuery {
    */
   params?: any;
 }
-
-
-
