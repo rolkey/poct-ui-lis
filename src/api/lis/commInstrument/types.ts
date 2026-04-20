@@ -2,7 +2,7 @@ export interface CommInstrumentVO {
   /**
    * 仪器代码
    */
-  instrumentId: string | number;
+  instrumentId: string;
 
   /**
    * 仪器名称
@@ -38,7 +38,6 @@ export interface CommInstrumentVO {
    * key
    */
   instrumentKey: string;
-
 }
 
 export interface CommInstrumentForm extends BaseEntity {
@@ -81,11 +80,9 @@ export interface CommInstrumentForm extends BaseEntity {
    * key
    */
   instrumentKey?: string;
-
 }
 
 export interface CommInstrumentQuery extends PageQuery {
-
   /**
    * 仪器代码
    */
@@ -131,6 +128,3 @@ export interface CommInstrumentQuery extends PageQuery {
    */
   params?: any;
 }
-
-
-

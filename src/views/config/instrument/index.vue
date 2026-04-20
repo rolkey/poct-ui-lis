@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2">
+  <div id="app" class="p-2">
     <transition
       :enter-active-class="proxy?.animate.searchAnimate.enter"
       :leave-active-class="proxy?.animate.searchAnimate.leave"
@@ -7,14 +7,14 @@
       <div v-show="showSearch" class="mb-[10px]">
         <el-card shadow="hover">
           <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-            <el-form-item label="仪器代码" prop="instrumentId">
+            <!-- <el-form-item label="仪器代码" prop="instrumentId">
               <el-input
                 v-model="queryParams.instrumentId"
                 placeholder="请输入仪器代码"
                 clearable
                 @keyup.enter="handleQuery"
               />
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="仪器名称" prop="instrumentName">
               <el-input
                 v-model="queryParams.instrumentName"
@@ -39,22 +39,22 @@
                 @keyup.enter="handleQuery"
               />
             </el-form-item>
-            <el-form-item label="端口配置" prop="instrumentCommport">
+            <!-- <el-form-item label="端口配置" prop="instrumentCommport">
               <el-input
                 v-model="queryParams.instrumentCommport"
                 placeholder="请输入端口配置"
                 clearable
                 @keyup.enter="handleQuery"
               />
-            </el-form-item>
-            <el-form-item label="key" prop="instrumentKey">
+            </el-form-item> -->
+            <!-- <el-form-item label="key" prop="instrumentKey">
               <el-input
                 v-model="queryParams.instrumentKey"
                 placeholder="请输入key"
                 clearable
                 @keyup.enter="handleQuery"
               />
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
               <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
               <el-button icon="Refresh" @click="resetQuery">重置</el-button>
@@ -120,14 +120,14 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="仪器代码" align="center" prop="instrumentId" />
+        <!-- <el-table-column label="仪器代码" align="center" prop="instrumentId" /> -->
         <el-table-column label="仪器名称" align="center" prop="instrumentName" />
         <el-table-column label="注册时间" align="center" prop="instrumentKeyDate" />
         <el-table-column label="仪器类型" align="center" prop="instrumentType" />
         <el-table-column label="接口程序" align="center" prop="interfaceName" />
         <el-table-column label="通讯方式" align="center" prop="interfaceType" />
         <el-table-column label="端口配置" align="center" prop="instrumentCommport" />
-        <el-table-column label="key" align="center" prop="instrumentKey" />
+        <!-- <el-table-column label="key" align="center" prop="instrumentKey" /> -->
         <el-table-column
           label="操作"
           align="center"
@@ -168,9 +168,9 @@
     <!-- 添加或修改仪器对话框 -->
     <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
       <el-form ref="commInstrumentFormRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="仪器代码" prop="instrumentId">
+        <!-- <el-form-item label="仪器代码" prop="instrumentId">
           <el-input v-model="form.instrumentId" placeholder="请输入仪器代码" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="仪器名称" prop="instrumentName">
           <el-input v-model="form.instrumentName" placeholder="请输入仪器名称" />
         </el-form-item>
@@ -183,9 +183,9 @@
         <el-form-item label="端口配置" prop="instrumentCommport">
           <el-input v-model="form.instrumentCommport" placeholder="请输入端口配置" />
         </el-form-item>
-        <el-form-item label="key" prop="instrumentKey">
+        <!-- <el-form-item label="key" prop="instrumentKey">
           <el-input v-model="form.instrumentKey" placeholder="请输入key" />
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <template #footer>
         <div class="dialog-footer">

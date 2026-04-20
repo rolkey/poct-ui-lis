@@ -50,11 +50,12 @@ export function loadRouters(): void {
     .usePermissionStore()
     .routes.forEach((element: RouteItem) => {
       if (element.path.startsWith(basePath)) {
+        console.log("load [" + basePath + "] router:", element);
         element.children?.forEach((item: RouteItem) => {
           if (item.meta?.component) {
             item.component = loadView(item.meta?.component || "");
             item.path = "/" + item.path;
-            router.addRoute(item as unknown as RouteRecordRaw);
+            router.addRoute(item as RouteRecordRaw);
           } else {
             console.log(basePath + " not found component:", item);
           }
