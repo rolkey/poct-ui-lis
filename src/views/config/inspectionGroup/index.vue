@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2">
+  <div class="showFull p-2 flex flex-col">
     <transition
       :enter-active-class="proxy?.animate.searchAnimate.enter"
       :leave-active-class="proxy?.animate.searchAnimate.leave"
@@ -48,7 +48,7 @@
       </div>
     </transition>
 
-    <el-card shadow="never">
+    <el-card shadow="never" class="flex flex-col flex-1 table-card min-h-0 overflow-hidden">
       <template #header>
         <el-row :gutter="10" class="mb8">
           <el-col :span="1.5">
@@ -93,63 +93,80 @@
               >导出</el-button
             >
           </el-col>
-          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
+          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList">
+            <template #actions>
+              <!-- 这里可以添加自定义按钮 -->
+              <el-tooltip class="item" effect="dark" content="配置" placement="top">
+                <el-button circle icon="Tickets" @click="handleConfig" />
+              </el-tooltip>
+            </template>
+          </right-toolbar>
         </el-row>
       </template>
 
-      <el-table
-        v-loading="loading"
-        border
-        :data="inspectionGroupList"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="55" align="center" fixed />
-        <!-- <el-table-column label="分组ID" align="center" prop="groupId" v-if="true" /> -->
-        <el-table-column label="分组代码" align="center" prop="groupCode" fixed width="80" />
-        <!-- <el-table-column label="排序号" align="center" prop="groupSort" /> -->
-        <el-table-column label="分组名称" align="center" prop="groupName" width="160" />
-        <el-table-column label="检验科室" align="center" prop="inspectionDept" width="80" />
-        <el-table-column label="分组类型" align="center" prop="groupClass" width="130" />
-        <el-table-column label="项目显示格式" align="center" prop="testItemAppend" width="120" />
-        <el-table-column label="项目显示" align="center" prop="itemDisplay" width="150" />
-        <el-table-column label="起诉样本号" align="center" prop="startNo" width="60" />
-        <el-table-column label="开始焦点" align="center" prop="startFocus" width="60" />
-        <el-table-column label="回顾条件设置" align="center" prop="resultReview" width="110" />
-        <el-table-column label="同类分组" align="center" prop="sameGroup" width="70" />
-        <el-table-column label="结果图形类型" align="center" prop="graphFormat" width="60" />
-        <el-table-column label="对应老系统仪器" align="center" prop="graphSwitchFile" width="110" />
-        <el-table-column label="状态" align="center" prop="stateFlag" width="60" />
-        <el-table-column label="默认结果" align="center" prop="defaultResult" width="90" />
-        <el-table-column
-          label="操作"
-          align="center"
-          fixed="right"
-          class-name="small-padding fixed-width"
+      <div ref="tableWrapperRef" class="flex flex-row flex-1">
+        <el-table
+          v-loading="loading"
+          border
+          :data="inspectionGroupList"
+          @selection-change="handleSelectionChange"
+          :height="tableHeight"
         >
-          <template #default="scope">
-            <el-tooltip content="修改" placement="top">
-              <el-button
-                link
-                type="primary"
-                icon="Edit"
-                @click="handleUpdate(scope.row)"
-                v-hasPermi="['lis:inspectionGroup:edit']"
-              ></el-button>
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button
-                link
-                type="primary"
-                icon="Delete"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['lis:inspectionGroup:remove']"
-              ></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column type="selection" width="55" align="center" fixed />
+          <!-- <el-table-column label="分组ID" align="center" prop="groupId" v-if="true" /> -->
+          <el-table-column label="分组代码" align="center" prop="groupCode" fixed width="80" />
+          <!-- <el-table-column label="排序号" align="center" prop="groupSort" /> -->
+          <el-table-column label="分组名称" align="center" prop="groupName" width="160" />
+          <el-table-column label="检验科室" align="center" prop="inspectionDept" width="80" />
+          <el-table-column label="分组类型" align="center" prop="groupClass" width="130" />
+          <el-table-column label="项目显示格式" align="center" prop="testItemAppend" width="120" />
+          <el-table-column label="项目显示" align="center" prop="itemDisplay" width="150" />
+          <el-table-column label="起诉样本号" align="center" prop="startNo" width="60" />
+          <el-table-column label="开始焦点" align="center" prop="startFocus" width="60" />
+          <el-table-column label="回顾条件设置" align="center" prop="resultReview" width="110" />
+          <el-table-column label="同类分组" align="center" prop="sameGroup" width="70" />
+          <el-table-column label="结果图形类型" align="center" prop="graphFormat" width="60" />
+          <el-table-column
+            label="对应老系统仪器"
+            align="center"
+            prop="graphSwitchFile"
+            width="110"
+          />
+          <el-table-column label="状态" align="center" prop="stateFlag" width="60" />
+          <el-table-column label="默认结果" align="center" prop="defaultResult" width="90" />
+          <el-table-column
+            label="操作"
+            align="center"
+            fixed="right"
+            class-name="small-padding fixed-width"
+          >
+            <template #default="scope">
+              <el-tooltip content="修改" placement="top">
+                <el-button
+                  link
+                  type="primary"
+                  icon="Edit"
+                  @click="handleUpdate(scope.row)"
+                  v-hasPermi="['lis:inspectionGroup:edit']"
+                ></el-button>
+              </el-tooltip>
+              <el-tooltip content="删除" placement="top">
+                <el-button
+                  link
+                  type="primary"
+                  icon="Delete"
+                  @click="handleDelete(scope.row)"
+                  v-hasPermi="['lis:inspectionGroup:remove']"
+                ></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-card v-if="configShow" class="w-[600px]"> config </el-card>
+      </div>
 
       <pagination
+        ref="paginationRef"
         v-show="total > 0"
         :total="total"
         v-model:page="queryParams.pageNum"
@@ -292,6 +309,30 @@ const getList = async () => {
   loading.value = false;
 };
 
+const configShow = ref(false);
+/** 取消按钮 */
+const handleConfig = () => {
+  configShow.value = !configShow.value;
+};
+
+const tableWrapperRef = ref(null);
+const paginationRef = ref(null);
+// 计算高度
+const tableHeight = ref("500px"); // 使用 ref 而非 computed
+
+const updateHeight = () => {
+  if (tableWrapperRef.value) {
+    const pageinationHeight = paginationRef.value?.clientHeight || 0;
+    const tabHeightCale = tableWrapperRef.value.clientHeight - pageinationHeight - 40;
+    if (tabHeightCale > 500) {
+      queryParams.value.pageSize = 20;
+    } else if (tabHeightCale < 500) {
+      queryParams.value.pageSize = 10;
+    }
+    tableHeight.value = tabHeightCale + "px";
+  }
+};
+
 /** 取消按钮 */
 const cancel = () => {
   reset();
@@ -381,5 +422,11 @@ const handleExport = () => {
 
 onMounted(() => {
   getList();
+  nextTick(updateHeight); // 初始计算
+  window.addEventListener("resize", updateHeight); // 监听窗口变化
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateHeight); // 清理监听
 });
 </script>

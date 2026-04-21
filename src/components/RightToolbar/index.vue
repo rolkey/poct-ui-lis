@@ -31,6 +31,7 @@
           </el-popover>
         </div>
       </el-tooltip>
+      <slot name="actions"></slot>
     </el-row>
   </div>
 </template>
