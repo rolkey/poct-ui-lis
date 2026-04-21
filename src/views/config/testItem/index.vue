@@ -190,7 +190,13 @@
       />
     </el-card>
     <!-- 添加或修改检验项目对话框 -->
-    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
+    <el-dialog
+      :title="dialog.title"
+      v-model="dialog.visible"
+      width="500px"
+      append-to-body
+      draggable
+    >
       <el-form ref="testItemFormRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="项目代码" prop="testItemCode">
           <el-input v-model="form.testItemCode" placeholder="请输入项目代码" />

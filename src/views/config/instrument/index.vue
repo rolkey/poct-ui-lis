@@ -122,6 +122,7 @@
         <el-table-column type="selection" width="55" align="center" />
         <!-- <el-table-column label="仪器代码" align="center" prop="instrumentId" /> -->
         <el-table-column label="仪器名称" align="center" prop="instrumentName" />
+        <el-table-column label="科室" align="center" prop="deptName" />
         <el-table-column label="注册时间" align="center" prop="instrumentKeyDate" />
         <el-table-column label="仪器类型" align="center" prop="instrumentType" />
         <el-table-column label="接口程序" align="center" prop="interfaceName" />
@@ -166,13 +167,29 @@
       />
     </el-card>
     <!-- 添加或修改仪器对话框 -->
-    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
+    <el-dialog
+      :title="dialog.title"
+      v-model="dialog.visible"
+      width="500px"
+      append-to-body
+      draggable
+    >
       <el-form ref="commInstrumentFormRef" :model="form" :rules="rules" label-width="80px">
         <!-- <el-form-item label="仪器代码" prop="instrumentId">
           <el-input v-model="form.instrumentId" placeholder="请输入仪器代码" />
         </el-form-item> -->
         <el-form-item label="仪器名称" prop="instrumentName">
           <el-input v-model="form.instrumentName" placeholder="请输入仪器名称" />
+        </el-form-item>
+        <el-form-item label="归属部门" prop="deptId">
+          <el-tree-select
+            v-model="form.deptId"
+            :data="enabledDeptOptions"
+            :props="{ value: 'id', label: 'label', children: 'children' }"
+            value-key="id"
+            placeholder="请选择归属部门"
+            check-strictly
+          />
         </el-form-item>
         <el-form-item label="注册时间" prop="instrumentKeyDate">
           <el-input v-model="form.instrumentKeyDate" placeholder="请输入注册时间" />
@@ -210,6 +227,9 @@ import {
   CommInstrumentQuery,
   CommInstrumentForm,
 } from "@/api/lis/commInstrument/types";
+import { deptTreeSelect } from "@/api/system/dept";
+import { DeptTreeVO } from "@/api/system/dept/types";
+import { filterDisabledDept, findDept } from "@/utils/dept";
 import { ComponentInternalInstance, getCurrentInstance, reactive, ref, toRefs } from "vue";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
@@ -219,6 +239,8 @@ const buttonLoading = ref(false);
 const loading = ref(true);
 const showSearch = ref(true);
 const ids = ref<Array<string | number>>([]);
+const enabledDeptOptions = ref<DeptTreeVO[]>([]);
+const deptOptions = ref<DeptTreeVO[]>([]);
 const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
@@ -240,6 +262,8 @@ const initFormData: CommInstrumentForm = {
   interfaceType: undefined,
   instrumentCommport: undefined,
   instrumentKey: undefined,
+  deptId: "",
+  deptName: "",
 };
 const data = reactive<PageData<CommInstrumentForm, CommInstrumentQuery>>({
   form: { ...initFormData },
@@ -266,6 +290,12 @@ const getList = async () => {
   loading.value = true;
   const res = await listCommInstrument(queryParams.value);
   commInstrumentList.value = res.rows;
+  res.rows.forEach((item) => {
+    const dept = findDept(item.deptId, deptOptions.value);
+    if (dept) {
+      item.deptName = dept.label;
+    }
+  });
   total.value = res.total;
   loading.value = false;
 };
@@ -335,6 +365,13 @@ const submitForm = () => {
   });
 };
 
+/** 查询部门下拉树结构 */
+const getDeptTree = async () => {
+  const res = await deptTreeSelect();
+  deptOptions.value = res.data;
+  enabledDeptOptions.value = filterDisabledDept(res.data);
+};
+
 /** 删除按钮操作 */
 const handleDelete = async (row?: CommInstrumentVO) => {
   const _instrumentIds = row?.instrumentId || ids.value;
@@ -357,7 +394,8 @@ const handleExport = () => {
   );
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await getDeptTree(); // 初始化部门数据
   getList();
 });
 </script>

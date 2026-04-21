@@ -208,7 +208,13 @@
       />
     </el-card>
     <!-- 添加或修改诊疗项目对话框 -->
-    <el-dialog :title="dialog.title" v-model="dialog.visible" width="900px" append-to-body>
+    <el-dialog
+      :title="dialog.title"
+      v-model="dialog.visible"
+      width="900px"
+      append-to-body
+      draggable
+    >
       <el-form ref="chargeItemFormRef" :model="form" :rules="rules" label-width="auto">
         <el-form-item label="诊疗项目名称" prop="chineseName">
           <el-input v-model="form.chineseName" placeholder="请输入诊疗项目名称" />

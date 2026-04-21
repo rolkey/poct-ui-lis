@@ -175,7 +175,13 @@
       />
     </el-card>
     <!-- 添加或修改检验分组信息对话框 -->
-    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
+    <el-dialog
+      :title="dialog.title"
+      v-model="dialog.visible"
+      width="500px"
+      append-to-body
+      draggable
+    >
       <el-form ref="inspectionGroupFormRef" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="分组代码" prop="groupCode">
           <el-input v-model="form.groupCode" placeholder="请输入分组代码" />

@@ -20,6 +20,16 @@ export interface CommInstrumentVO {
   instrumentType: string;
 
   /**
+   * 仪器部门
+   */
+  deptId: string;
+
+  /**
+   * 仪器部门名称
+   */
+  deptName: string;
+
+  /**
    * 接口程序
    */
   interfaceName: string;
@@ -60,6 +70,16 @@ export interface CommInstrumentForm extends BaseEntity {
    * 仪器类型
    */
   instrumentType?: string;
+
+  /**
+   * 仪器部门
+   */
+  deptId: string;
+
+  /**
+   * 仪器部门名称
+   */
+  deptName: string;
 
   /**
    * 接口程序

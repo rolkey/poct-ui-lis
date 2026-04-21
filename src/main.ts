@@ -36,6 +36,7 @@ const microAppName = appName.substr(1);
 // 国际化
 import i18n from "@/lang/index";
 import directive from "./directive";
+import { useDict } from "./utils/dict";
 
 let app: ReturnType<typeof createApp> | null = null;
 
@@ -44,6 +45,7 @@ const render = (container?: any) => {
   app = createApp(App);
 
   app.config.globalProperties.msgBus = (window as any).__QIANKUN_MSG_BUS__;
+  app.config.globalProperties.useDict = useDict;
 
   app.use(store);
 

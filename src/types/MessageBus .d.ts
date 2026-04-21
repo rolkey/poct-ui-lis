@@ -8,6 +8,8 @@ interface IMessageBus extends Emitter<MessageBusEvents> {
   useDictStore: () => any;
   settingsStore: () => any;
   getToken: () => string | null;
+  globalHeaders: () => any;
+
   all: Map<keyof MessageBusEvents, any[]>;
   on(type: string, handler: any): this;
   off(type: string, handler: any): this;
