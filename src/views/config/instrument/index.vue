@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="p-2">
+  <div class="showFull p-2 flex flex-col">
     <transition
       :enter-active-class="proxy?.animate.searchAnimate.enter"
       :leave-active-class="proxy?.animate.searchAnimate.leave"
@@ -7,14 +7,14 @@
       <div v-show="showSearch" class="mb-[10px]">
         <el-card shadow="hover">
           <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-            <!-- <el-form-item label="仪器代码" prop="instrumentId">
+            <el-form-item label="仪器代码" prop="instrumentId">
               <el-input
                 v-model="queryParams.instrumentId"
                 placeholder="请输入仪器代码"
                 clearable
                 @keyup.enter="handleQuery"
               />
-            </el-form-item> -->
+            </el-form-item>
             <el-form-item label="仪器名称" prop="instrumentName">
               <el-input
                 v-model="queryParams.instrumentName"
@@ -64,9 +64,9 @@
       </div>
     </transition>
 
-    <el-card shadow="never">
+    <el-card shadow="never" class="flex flex-col flex-1 table-card">
       <template #header>
-        <el-row :gutter="10" class="mb8">
+        <el-row ref="editButtonsRef" :gutter="10" class="mb-[6px]">
           <el-col :span="1.5">
             <el-button
               type="primary"
@@ -113,52 +113,56 @@
         </el-row>
       </template>
 
-      <el-table
-        v-loading="loading"
-        border
-        :data="commInstrumentList"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="55" align="center" />
-        <!-- <el-table-column label="仪器代码" align="center" prop="instrumentId" /> -->
-        <el-table-column label="仪器名称" align="center" prop="instrumentName" />
-        <el-table-column label="科室" align="center" prop="deptName" />
-        <el-table-column label="注册时间" align="center" prop="instrumentKeyDate" />
-        <el-table-column label="仪器类型" align="center" prop="instrumentType" />
-        <el-table-column label="接口程序" align="center" prop="interfaceName" />
-        <el-table-column label="通讯方式" align="center" prop="interfaceType" />
-        <el-table-column label="端口配置" align="center" prop="instrumentCommport" />
-        <!-- <el-table-column label="key" align="center" prop="instrumentKey" /> -->
-        <el-table-column
-          label="操作"
-          align="center"
-          fixed="right"
-          class-name="small-padding fixed-width"
+      <div ref="tableWrapperRef" class="flex flex-row flex-1 overflow-hidden">
+        <el-table
+          v-loading="loading"
+          border
+          :data="commInstrumentList"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange"
         >
-          <template #default="scope">
-            <el-tooltip content="修改" placement="top">
-              <el-button
-                link
-                type="primary"
-                icon="Edit"
-                @click="handleUpdate(scope.row)"
-                v-hasPermi="['lis:commInstrument:edit']"
-              ></el-button>
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button
-                link
-                type="primary"
-                icon="Delete"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['lis:commInstrument:remove']"
-              ></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column type="selection" width="55" align="center" />
+          <el-table-column label="仪器代码" align="center" prop="instrumentId" />
+          <el-table-column label="仪器名称" align="center" prop="instrumentName" />
+          <el-table-column label="科室" align="center" prop="deptName" />
+          <el-table-column label="注册时间" align="center" prop="instrumentKeyDate" />
+          <el-table-column label="仪器类型" align="center" prop="instrumentType" />
+          <el-table-column label="接口程序" align="center" prop="interfaceName" />
+          <el-table-column label="通讯方式" align="center" prop="interfaceType" />
+          <el-table-column label="端口配置" align="center" prop="instrumentCommport" />
+          <!-- <el-table-column label="key" align="center" prop="instrumentKey" /> -->
+          <el-table-column
+            label="操作"
+            align="center"
+            fixed="right"
+            class-name="small-padding fixed-width"
+          >
+            <template #default="scope">
+              <el-tooltip content="修改" placement="top">
+                <el-button
+                  link
+                  type="primary"
+                  icon="Edit"
+                  @click="handleUpdate(scope.row)"
+                  v-hasPermi="['lis:commInstrument:edit']"
+                ></el-button>
+              </el-tooltip>
+              <el-tooltip content="删除" placement="top">
+                <el-button
+                  link
+                  type="primary"
+                  icon="Delete"
+                  @click="handleDelete(scope.row)"
+                  v-hasPermi="['lis:commInstrument:remove']"
+                ></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
 
       <pagination
+        ref="paginationRef"
         v-show="total > 0"
         :total="total"
         v-model:page="queryParams.pageNum"
@@ -167,17 +171,11 @@
       />
     </el-card>
     <!-- 添加或修改仪器对话框 -->
-    <el-dialog
-      :title="dialog.title"
-      v-model="dialog.visible"
-      width="500px"
-      append-to-body
-      draggable
-    >
+    <el-dialog :title="dialog.title" v-model="dialog.visible" width="500px" append-to-body>
       <el-form ref="commInstrumentFormRef" :model="form" :rules="rules" label-width="80px">
-        <!-- <el-form-item label="仪器代码" prop="instrumentId">
+        <el-form-item label="仪器代码" prop="instrumentId">
           <el-input v-model="form.instrumentId" placeholder="请输入仪器代码" />
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="仪器名称" prop="instrumentName">
           <el-input v-model="form.instrumentName" placeholder="请输入仪器名称" />
         </el-form-item>
@@ -230,7 +228,6 @@ import {
 import { deptTreeSelect } from "@/api/system/dept";
 import { DeptTreeVO } from "@/api/system/dept/types";
 import { filterDisabledDept, findDept } from "@/utils/dept";
-import { ComponentInternalInstance, getCurrentInstance, reactive, ref, toRefs } from "vue";
 
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
@@ -298,6 +295,37 @@ const getList = async () => {
   });
   total.value = res.total;
   loading.value = false;
+};
+
+const tableWrapperRef = ref(null);
+const editButtonsRef = ref(null);
+const paginationRef = ref(null);
+// 计算高度
+const tableHeight = ref("500px"); // 使用 ref 而非 computed
+
+const updateHeight = () => {
+  setTimeout(() => {
+    if (tableWrapperRef.value) {
+      const pageinationHeight = paginationRef.value?.$el?.clientHeight || 0;
+      const editButtonsHeight = editButtonsRef.value?.$el?.clientHeight || 0;
+      const tabHeightCale =
+        tableWrapperRef.value.clientHeight - pageinationHeight - editButtonsHeight - 40;
+      console.log(
+        "tabHeightCale",
+        tabHeightCale,
+        "pageinationHeight",
+        pageinationHeight,
+        "editButtonsHeight",
+        editButtonsHeight,
+      );
+      if (tabHeightCale > 500) {
+        queryParams.value.pageSize = 20;
+      } else if (tabHeightCale < 500) {
+        queryParams.value.pageSize = 10;
+      }
+      tableHeight.value = tabHeightCale + "px";
+    }
+  }, 150);
 };
 
 /** 取消按钮 */
@@ -397,5 +425,11 @@ const handleExport = () => {
 onMounted(async () => {
   await getDeptTree(); // 初始化部门数据
   getList();
+  updateHeight(); // 初始计算
+  window.addEventListener("resize", updateHeight); // 监听窗口变化
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateHeight); // 清理监听
 });
 </script>

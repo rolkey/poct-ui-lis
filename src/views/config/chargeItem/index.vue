@@ -66,7 +66,7 @@
 
     <el-card shadow="never" class="flex flex-col flex-1 table-card">
       <template #header>
-        <el-row :gutter="10" class="mb8">
+        <el-row ref="editButtonsRef" :gutter="10" class="mb-[6px]">
           <el-col :span="1.5">
             <el-button
               type="primary"
@@ -113,7 +113,7 @@
         </el-row>
       </template>
 
-      <div ref="tableWrapperRef" class="flex flex-row flex-1">
+      <div ref="tableWrapperRef" class="flex flex-row flex-1 overflow-hidden">
         <el-table
           v-loading="loading"
           border
@@ -122,52 +122,78 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55" align="center" />
-          <el-table-column label="诊疗项目ID" align="center" prop="chargeItemId" v-if="true" />
-          <el-table-column label="诊疗项目名称" align="center" prop="chineseName" />
-          <el-table-column label="诊疗项目简称" align="center" prop="chineseNameShort" />
-          <el-table-column label="诊疗项目英文名称" align="center" prop="englishName" />
-          <el-table-column label="HIS代码" align="center" prop="hisId" />
-          <el-table-column label="医保代码" align="center" prop="medicareId" />
-          <el-table-column label="标准代码" align="center" prop="standartId" />
-          <el-table-column label="条码规则序号" align="center" prop="barcodeSeq" />
-          <el-table-column label="排序号" align="center" prop="chargeItemSort" />
-          <el-table-column label="诊疗项目分类" align="center" prop="chargeItemClass" />
-          <el-table-column label="诊疗项目金额" align="center" prop="charge" />
-          <el-table-column label="默认标本种类" align="center" prop="sampleClass" />
-          <el-table-column label="项目开展类型" align="center" prop="patientType" />
-          <el-table-column label="采样要求" align="center" prop="samplingRequest" />
-          <el-table-column label="允许采样时间" align="center" prop="samplingTime" />
-          <el-table-column label="采样地点" align="center" prop="samplingPlace" />
-          <el-table-column label="报告时间" align="center" prop="reportTime" />
-          <el-table-column label="报告地点" align="center" prop="reportPlace" />
-          <el-table-column label="报告时间序号" align="center" prop="reportTimeSort" />
-          <el-table-column label="开展时间" align="center" prop="inspectionTime" />
-          <el-table-column label="工作量" align="center" prop="workload" />
-          <el-table-column label="项目数量" align="center" prop="testItemCount" />
-          <el-table-column label="合并标记" align="center" prop="uniteFlag" />
-          <el-table-column label="展开标记" align="center" prop="expandFlag" />
-          <el-table-column label="自定义码" align="center" prop="customCode" />
-          <el-table-column label="拼音码" align="center" prop="spellCode" />
-          <el-table-column label="五笔码" align="center" prop="strokeCode" />
-          <el-table-column label="实验室分类" align="center" prop="labClass" />
-          <el-table-column label="是否常用：1是，空不是" align="center" prop="usedFlag" />
-          <el-table-column label="使用状态：1使用，0禁用" align="center" prop="stateFlag" />
-          <el-table-column label="起始编号" align="center" prop="numberFrom" />
-          <el-table-column label="结束编号" align="center" prop="numberTo" />
-          <el-table-column label="编号规则" align="center" prop="numberPriority" />
-          <el-table-column label="标本保留天数" align="center" prop="saveTerm" />
-          <el-table-column label="所属检验分组" align="center" prop="groupId" />
-          <el-table-column label="发送标记" align="center" prop="sendFlag" />
-          <el-table-column label="试管标记" align="center" prop="tubeFlag" />
-          <el-table-column label="队列标记" align="center" prop="queueFlag" />
-          <el-table-column label="项目代码" align="center" prop="itemCode" />
-          <el-table-column label="体检代码" align="center" prop="tjxmbh" />
-          <el-table-column label="危急值超时分钟" align="center" prop="policeMinute" />
-          <el-table-column label="HIS名称" align="center" prop="hisName" />
-          <el-table-column label="检验条码打印份数" align="center" prop="numberPrint" />
-          <el-table-column label="试管数量" align="center" prop="tubeNumber" />
-          <el-table-column label="采样人员规则" align="center" prop="samplingPersonRule" />
-          <el-table-column label="体检关联码" align="center" prop="pesId" />
+          <el-table-column
+            label="诊疗项目ID"
+            align="center"
+            prop="chargeItemId"
+            width="80"
+            v-if="true"
+          />
+          <el-table-column label="诊疗项目名称" align="center" prop="chineseName" width="200" />
+          <el-table-column
+            label="诊疗项目简称"
+            align="center"
+            prop="chineseNameShort"
+            width="100"
+          />
+          <el-table-column label="诊疗项目英文名称" align="center" prop="englishName" width="150" />
+          <el-table-column label="HIS代码" align="center" prop="hisId" width="80" />
+          <el-table-column label="医保代码" align="center" prop="medicareId" width="100" />
+          <el-table-column label="标准代码" align="center" prop="standartId" width="100" />
+          <el-table-column label="条码规则序号" align="center" prop="barcodeSeq" width="100" />
+          <el-table-column label="排序号" align="center" prop="chargeItemSort" width="80" />
+          <el-table-column label="诊疗项目分类" align="center" prop="chargeItemClass" width="100" />
+          <el-table-column label="诊疗项目金额" align="center" prop="charge" width="100" />
+          <el-table-column label="默认标本种类" align="center" prop="sampleClass" width="120" />
+          <el-table-column label="项目开展类型" align="center" prop="patientType" width="100" />
+          <el-table-column label="采样要求" align="center" prop="samplingRequest" width="150" />
+          <el-table-column label="允许采样时间" align="center" prop="samplingTime" width="120" />
+          <el-table-column label="采样地点" align="center" prop="samplingPlace" width="100" />
+          <el-table-column label="报告时间" align="center" prop="reportTime" width="100" />
+          <el-table-column label="报告地点" align="center" prop="reportPlace" width="100" />
+          <el-table-column label="报告时间序号" align="center" prop="reportTimeSort" width="100" />
+          <el-table-column label="开展时间" align="center" prop="inspectionTime" width="100" />
+          <el-table-column label="工作量" align="center" prop="workload" width="80" />
+          <el-table-column label="项目数量" align="center" prop="testItemCount" width="80" />
+          <el-table-column label="合并标记" align="center" prop="uniteFlag" width="80" />
+          <el-table-column label="展开标记" align="center" prop="expandFlag" width="80" />
+          <el-table-column label="自定义码" align="center" prop="customCode" width="100" />
+          <el-table-column label="拼音码" align="center" prop="spellCode" width="100" />
+          <el-table-column label="五笔码" align="center" prop="strokeCode" width="100" />
+          <el-table-column label="实验室分类" align="center" prop="labClass" width="100" />
+          <el-table-column
+            label="是否常用：1是，空不是"
+            align="center"
+            prop="usedFlag"
+            width="100"
+          />
+          <el-table-column
+            label="使用状态：1使用，0禁用"
+            align="center"
+            prop="stateFlag"
+            width="100"
+          />
+          <el-table-column label="起始编号" align="center" prop="numberFrom" width="100" />
+          <el-table-column label="结束编号" align="center" prop="numberTo" width="100" />
+          <el-table-column label="编号规则" align="center" prop="numberPriority" width="100" />
+          <el-table-column label="标本保留天数" align="center" prop="saveTerm" width="100" />
+          <el-table-column label="所属检验分组" align="center" prop="groupId" width="100" />
+          <el-table-column label="发送标记" align="center" prop="sendFlag" width="80" />
+          <el-table-column label="试管标记" align="center" prop="tubeFlag" width="80" />
+          <el-table-column label="队列标记" align="center" prop="queueFlag" width="80" />
+          <el-table-column label="项目代码" align="center" prop="itemCode" width="100" />
+          <el-table-column label="体检代码" align="center" prop="tjxmbh" width="100" />
+          <el-table-column label="危急值超时分钟" align="center" prop="policeMinute" width="120" />
+          <el-table-column label="HIS名称" align="center" prop="hisName" width="100" />
+          <el-table-column label="检验条码打印份数" align="center" prop="numberPrint" width="120" />
+          <el-table-column label="试管数量" align="center" prop="tubeNumber" width="100" />
+          <el-table-column
+            label="采样人员规则"
+            align="center"
+            prop="samplingPersonRule"
+            width="120"
+          />
+          <el-table-column label="体检关联码" align="center" prop="pesId" width="100" />
           <el-table-column
             label="操作"
             align="center"
@@ -215,130 +241,229 @@
       append-to-body
       draggable
     >
-      <el-form ref="chargeItemFormRef" :model="form" :rules="rules" label-width="auto">
-        <el-form-item label="诊疗项目名称" prop="chineseName">
-          <el-input v-model="form.chineseName" placeholder="请输入诊疗项目名称" />
-        </el-form-item>
-        <el-form-item label="诊疗项目简称" prop="chineseNameShort">
-          <el-input v-model="form.chineseNameShort" placeholder="请输入诊疗项目简称" />
-        </el-form-item>
-        <el-form-item label="诊疗项目英文名称" prop="englishName">
-          <el-input v-model="form.englishName" placeholder="请输入诊疗项目英文名称" />
-        </el-form-item>
-        <el-form-item label="HIS代码" prop="hisId">
-          <el-input v-model="form.hisId" placeholder="请输入HIS代码" />
-        </el-form-item>
-        <el-form-item label="医保代码" prop="medicareId">
-          <el-input v-model="form.medicareId" placeholder="请输入医保代码" />
-        </el-form-item>
-        <el-form-item label="标准代码" prop="standartId">
-          <el-input v-model="form.standartId" placeholder="请输入标准代码" />
-        </el-form-item>
-        <el-form-item label="排序号" prop="chargeItemSort">
-          <el-input v-model="form.chargeItemSort" placeholder="请输入排序号" />
-        </el-form-item>
-        <el-form-item label="诊疗项目分类" prop="chargeItemClass">
-          <el-input v-model="form.chargeItemClass" placeholder="请输入诊疗项目分类" />
-        </el-form-item>
-        <el-form-item label="诊疗项目金额" prop="charge">
-          <el-input v-model="form.charge" placeholder="请输入诊疗项目金额" />
-        </el-form-item>
-        <el-form-item label="默认标本种类" prop="sampleClass">
-          <el-input v-model="form.sampleClass" placeholder="请输入默认标本种类" />
-        </el-form-item>
-        <el-form-item label="采样要求" prop="samplingRequest">
-          <el-input v-model="form.samplingRequest" placeholder="请输入采样要求" />
-        </el-form-item>
-        <el-form-item label="允许采样时间" prop="samplingTime">
-          <el-input v-model="form.samplingTime" placeholder="请输入允许采样时间" />
-        </el-form-item>
-        <el-form-item label="采样地点" prop="samplingPlace">
-          <el-input v-model="form.samplingPlace" placeholder="请输入采样地点" />
-        </el-form-item>
-        <el-form-item label="报告时间" prop="reportTime">
-          <el-input v-model="form.reportTime" placeholder="请输入报告时间" />
-        </el-form-item>
-        <el-form-item label="报告地点" prop="reportPlace">
-          <el-input v-model="form.reportPlace" placeholder="请输入报告地点" />
-        </el-form-item>
-        <el-form-item label="报告时间序号" prop="reportTimeSort">
-          <el-input v-model="form.reportTimeSort" placeholder="请输入报告时间序号" />
-        </el-form-item>
-        <el-form-item label="开展时间" prop="inspectionTime">
-          <el-input v-model="form.inspectionTime" placeholder="请输入开展时间" />
-        </el-form-item>
-        <el-form-item label="工作量" prop="workload">
-          <el-input v-model="form.workload" placeholder="请输入工作量" />
-        </el-form-item>
-        <el-form-item label="项目数量" prop="testItemCount">
-          <el-input v-model="form.testItemCount" placeholder="请输入项目数量" />
-        </el-form-item>
-        <el-form-item label="合并标记" prop="uniteFlag">
-          <el-input v-model="form.uniteFlag" placeholder="请输入合并标记" />
-        </el-form-item>
-        <el-form-item label="展开标记" prop="expandFlag">
-          <el-input v-model="form.expandFlag" placeholder="请输入展开标记" />
-        </el-form-item>
-        <el-form-item label="自定义码" prop="customCode">
-          <el-input v-model="form.customCode" placeholder="请输入自定义码" />
-        </el-form-item>
-        <el-form-item label="拼音码" prop="spellCode">
-          <el-input v-model="form.spellCode" placeholder="请输入拼音码" />
-        </el-form-item>
-        <el-form-item label="五笔码" prop="strokeCode">
-          <el-input v-model="form.strokeCode" placeholder="请输入五笔码" />
-        </el-form-item>
-        <el-form-item label="实验室分类" prop="labClass">
-          <el-input v-model="form.labClass" placeholder="请输入实验室分类" />
-        </el-form-item>
-        <el-form-item label="是否常用：1是，空不是" prop="usedFlag">
-          <el-input v-model="form.usedFlag" placeholder="请输入是否常用：1是，空不是" />
-        </el-form-item>
-        <el-form-item label="起始编号" prop="numberFrom">
-          <el-input v-model="form.numberFrom" placeholder="请输入起始编号" />
-        </el-form-item>
-        <el-form-item label="结束编号" prop="numberTo">
-          <el-input v-model="form.numberTo" placeholder="请输入结束编号" />
-        </el-form-item>
-        <el-form-item label="编号规则" prop="numberPriority">
-          <el-input v-model="form.numberPriority" placeholder="请输入编号规则" />
-        </el-form-item>
-        <el-form-item label="标本保留天数" prop="saveTerm">
-          <el-input v-model="form.saveTerm" placeholder="请输入标本保留天数" />
-        </el-form-item>
-        <el-form-item label="所属检验分组" prop="groupId">
-          <el-input v-model="form.groupId" placeholder="请输入所属检验分组" />
-        </el-form-item>
-        <el-form-item label="发送标记" prop="sendFlag">
-          <el-input v-model="form.sendFlag" placeholder="请输入发送标记" />
-        </el-form-item>
-        <el-form-item label="试管标记" prop="tubeFlag">
-          <el-input v-model="form.tubeFlag" placeholder="请输入试管标记" />
-        </el-form-item>
-        <el-form-item label="队列标记" prop="queueFlag">
-          <el-input v-model="form.queueFlag" placeholder="请输入队列标记" />
-        </el-form-item>
-        <el-form-item label="项目代码" prop="itemCode">
-          <el-input v-model="form.itemCode" placeholder="请输入项目代码" />
-        </el-form-item>
-        <el-form-item label="体检代码" prop="tjxmbh">
-          <el-input v-model="form.tjxmbh" placeholder="请输入体检代码" />
-        </el-form-item>
-        <el-form-item label="危急值超时分钟" prop="policeMinute">
-          <el-input v-model="form.policeMinute" placeholder="请输入危急值超时分钟" />
-        </el-form-item>
-        <el-form-item label="HIS名称" prop="hisName">
-          <el-input v-model="form.hisName" placeholder="请输入HIS名称" />
-        </el-form-item>
-        <el-form-item label="检验条码打印份数" prop="numberPrint">
-          <el-input v-model="form.numberPrint" placeholder="请输入检验条码打印份数" />
-        </el-form-item>
-        <el-form-item label="试管数量" prop="tubeNumber">
-          <el-input v-model="form.tubeNumber" placeholder="请输入试管数量" />
-        </el-form-item>
-        <el-form-item label="体检关联码" prop="pesId">
-          <el-input v-model="form.pesId" placeholder="请输入体检关联码" />
-        </el-form-item>
+      <el-form ref="chargeItemFormRef" :model="form" :rules="rules" label-width="120px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="诊疗项目名称" prop="chineseName">
+              <el-input v-model="form.chineseName" placeholder="请输入诊疗项目名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="诊疗项目分类" prop="chargeItemClass">
+              <el-input v-model="form.chargeItemClass" placeholder="请输入诊疗项目分类" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="诊疗项目简称" prop="chineseNameShort">
+              <el-input v-model="form.chineseNameShort" placeholder="请输入诊疗项目简称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="排序号" prop="chargeItemSort">
+              <el-input v-model="form.chargeItemSort" placeholder="请输入排序号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="诊疗项目英文名称" prop="englishName">
+              <el-input v-model="form.englishName" placeholder="请输入诊疗项目英文名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目金额" prop="charge">
+              <el-input v-model="form.charge" placeholder="请输入项目金额" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="HIS代码" prop="hisId">
+              <el-input v-model="form.hisId" placeholder="请输入HIS代码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="默认标本种类" prop="sampleClass">
+              <el-input v-model="form.sampleClass" placeholder="请输入默认标本种类" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="医保代码" prop="medicareId">
+              <el-input v-model="form.medicareId" placeholder="请输入医保代码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="是否常用" prop="usedFlag">
+              <el-input v-model="form.usedFlag" placeholder="请输入是否常用：1是，空不是" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="标准代码" prop="standartId">
+              <el-input v-model="form.standartId" placeholder="请输入标准代码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="使用状态" prop="stateFlag">
+              <el-input v-model="form.stateFlag" placeholder="请输入使用状态：1使用，0禁用" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="采样要求" prop="samplingRequest">
+              <el-input v-model="form.samplingRequest" placeholder="请输入采样要求" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="采样地点" prop="samplingPlace">
+              <el-input v-model="form.samplingPlace" placeholder="请输入采样地点" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="允许采样时间" prop="samplingTime">
+              <el-input v-model="form.samplingTime" placeholder="请输入允许采样时间" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="采样人员规则" prop="samplingPersonRule">
+              <el-input v-model="form.samplingPersonRule" placeholder="请输入采样人员规则" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="报告时间" prop="reportTime">
+              <el-input v-model="form.reportTime" placeholder="请输入报告时间" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="报告地点" prop="reportPlace">
+              <el-input v-model="form.reportPlace" placeholder="请输入报告地点" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="报告时间序号" prop="reportTimeSort">
+              <el-input v-model="form.reportTimeSort" placeholder="请输入报告时间序号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="开展时间" prop="inspectionTime">
+              <el-input v-model="form.inspectionTime" placeholder="请输入开展时间" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="工作量" prop="workload">
+              <el-input v-model="form.workload" placeholder="请输入工作量" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目数量" prop="testItemCount">
+              <el-input v-model="form.testItemCount" placeholder="请输入项目数量" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="合并标记" prop="uniteFlag">
+              <el-input v-model="form.uniteFlag" placeholder="请输入合并标记" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="展开标记" prop="expandFlag">
+              <el-input v-model="form.expandFlag" placeholder="请输入展开标记" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="起始编号" prop="numberFrom">
+              <el-input v-model="form.numberFrom" placeholder="请输入起始编号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="结束编号" prop="numberTo">
+              <el-input v-model="form.numberTo" placeholder="请输入结束编号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="编号规则" prop="numberPriority">
+              <el-input v-model="form.numberPriority" placeholder="请输入编号规则" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="标本保留天数" prop="saveTerm">
+              <el-input v-model="form.saveTerm" placeholder="请输入标本保留天数" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="所属检验分组" prop="groupId">
+              <el-input v-model="form.groupId" placeholder="请输入所属检验分组" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="实验室分类" prop="labClass">
+              <el-input v-model="form.labClass" placeholder="请输入实验室分类" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="发送标记" prop="sendFlag">
+              <el-input v-model="form.sendFlag" placeholder="请输入发送标记" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="试管标记" prop="tubeFlag">
+              <el-input v-model="form.tubeFlag" placeholder="请输入试管标记" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="队列标记" prop="queueFlag">
+              <el-input v-model="form.queueFlag" placeholder="请输入队列标记" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目代码" prop="itemCode">
+              <el-input v-model="form.itemCode" placeholder="请输入项目代码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="体检代码" prop="tjxmbh">
+              <el-input v-model="form.tjxmbh" placeholder="请输入体检代码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="危急值超时分钟" prop="policeMinute">
+              <el-input v-model="form.policeMinute" placeholder="请输入危急值超时分钟" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="HIS名称" prop="hisName">
+              <el-input v-model="form.hisName" placeholder="请输入HIS名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="检验条码打印份数" prop="numberPrint">
+              <el-input v-model="form.numberPrint" placeholder="请输入检验条码打印份数" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="试管数量" prop="tubeNumber">
+              <el-input v-model="form.tubeNumber" placeholder="请输入试管数量" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="体检关联码" prop="pesId">
+              <el-input v-model="form.pesId" placeholder="请输入体检关联码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="自定义码" prop="customCode">
+              <el-input v-model="form.customCode" placeholder="请输入自定义码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="条码规则序号" prop="barcodeSeq">
+              <el-input v-model="form.barcodeSeq" placeholder="请输入条码规则序号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="拼音码" prop="spellCode">
+              <el-input v-model="form.spellCode" placeholder="请输入拼音码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="五笔码" prop="strokeCode">
+              <el-input v-model="form.strokeCode" placeholder="请输入五笔码" />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -496,21 +621,34 @@ const getList = async () => {
 };
 
 const tableWrapperRef = ref(null);
+const editButtonsRef = ref(null);
 const paginationRef = ref(null);
 // 计算高度
 const tableHeight = ref("500px"); // 使用 ref 而非 computed
 
 const updateHeight = () => {
-  if (tableWrapperRef.value) {
-    const pageinationHeight = paginationRef.value?.clientHeight || 0;
-    const tabHeightCale = tableWrapperRef.value.clientHeight - pageinationHeight - 40;
-    if (tabHeightCale > 500) {
-      queryParams.value.pageSize = 20;
-    } else if (tabHeightCale < 500) {
-      queryParams.value.pageSize = 10;
+  setTimeout(() => {
+    if (tableWrapperRef.value) {
+      const pageinationHeight = paginationRef.value?.$el?.clientHeight || 0;
+      const editButtonsHeight = editButtonsRef.value?.$el?.clientHeight || 0;
+      const tabHeightCale =
+        tableWrapperRef.value.clientHeight - pageinationHeight - editButtonsHeight - 40;
+      console.log(
+        "tabHeightCale",
+        tabHeightCale,
+        "pageinationHeight",
+        pageinationHeight,
+        "editButtonsHeight",
+        editButtonsHeight,
+      );
+      if (tabHeightCale > 500) {
+        queryParams.value.pageSize = 20;
+      } else if (tabHeightCale < 500) {
+        queryParams.value.pageSize = 10;
+      }
+      tableHeight.value = tabHeightCale + "px";
     }
-    tableHeight.value = tabHeightCale + "px";
-  }
+  }, 150);
 };
 
 /** 取消按钮 */
@@ -602,7 +740,7 @@ const handleExport = () => {
 
 onMounted(() => {
   getList();
-  nextTick(updateHeight); // 初始计算
+  updateHeight(); // 初始计算
   window.addEventListener("resize", updateHeight); // 监听窗口变化
 });
 

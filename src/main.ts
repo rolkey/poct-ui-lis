@@ -89,5 +89,6 @@ renderWithQiankun({
 
 if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
   const redirect = encodeURIComponent(window.location.pathname + window.location.search);
+  console.log("!qiankun", redirect);
   window.location.href = `/?redirect=${redirect}`;
 }

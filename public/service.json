@@ -1,8 +1,10 @@
 {
     "development": {
-        "hisLis": "his-lis-rk"
+        "hisLis": "his-lis-rk",
+        "system": "system"
     },
     "production": {
-        "hisLis": "his-lis"
+        "hisLis": "his-lis",
+        "system": "system"
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2">
+  <div class="showFull p-2 flex flex-col">
     <transition
       :enter-active-class="proxy?.animate.searchAnimate.enter"
       :leave-active-class="proxy?.animate.searchAnimate.leave"
@@ -23,34 +23,18 @@
                 @keyup.enter="handleQuery"
               />
             </el-form-item>
-            <el-form-item label="标准代码" prop="standardId">
+            <el-form-item label="中文简称" prop="chineseShortName">
               <el-input
-                v-model="queryParams.standardId"
-                placeholder="请输入标准代码"
+                v-model="queryParams.chineseShortName"
+                placeholder="请输入中文简称"
                 clearable
                 @keyup.enter="handleQuery"
               />
             </el-form-item>
-            <el-form-item label="HIS代码" prop="hisId">
+            <el-form-item label="英文名称" prop="englishName">
               <el-input
-                v-model="queryParams.hisId"
-                placeholder="请输入HIS代码"
-                clearable
-                @keyup.enter="handleQuery"
-              />
-            </el-form-item>
-            <el-form-item label="医保代码" prop="medicalId">
-              <el-input
-                v-model="queryParams.medicalId"
-                placeholder="请输入医保代码"
-                clearable
-                @keyup.enter="handleQuery"
-              />
-            </el-form-item>
-            <el-form-item label="项目分类" prop="testItemClass">
-              <el-input
-                v-model="queryParams.testItemClass"
-                placeholder="请输入项目分类"
+                v-model="queryParams.englishName"
+                placeholder="请输入英文名称"
                 clearable
                 @keyup.enter="handleQuery"
               />
@@ -64,9 +48,9 @@
       </div>
     </transition>
 
-    <el-card shadow="never">
+    <el-card shadow="never" class="flex flex-col flex-1 table-card">
       <template #header>
-        <el-row :gutter="10" class="mb8">
+        <el-row ref="editButtonsRef" :gutter="10" class="mb-[6px]">
           <el-col :span="1.5">
             <el-button
               type="primary"
@@ -113,75 +97,79 @@
         </el-row>
       </template>
 
-      <el-table
-        v-loading="loading"
-        border
-        :data="testItemList"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="55" align="center" />
-        <el-table-column label="项目ID" align="center" prop="testItemId" v-if="false" />
-        <el-table-column label="项目代码" align="center" prop="testItemCode" />
-        <el-table-column label="排序号" align="center" prop="testItemSort" />
-        <el-table-column label="中文名称" align="center" prop="chineseName" />
-        <el-table-column label="中文简称" align="center" prop="chineseShortName" />
-        <el-table-column label="英文名称" align="center" prop="englishName" />
-        <el-table-column label="英文简称" align="center" prop="englishShortName" />
-        <el-table-column label="标准代码" align="center" prop="standardId" />
-        <el-table-column label="HIS代码" align="center" prop="hisId" />
-        <el-table-column label="老系统代码" align="center" prop="lisId" />
-        <el-table-column label="医保代码" align="center" prop="medicalId" />
-        <el-table-column label="项目类型:计算类、非计算类" align="center" prop="testItemType" />
-        <el-table-column label="项目分类" align="center" prop="testItemClass" />
-        <el-table-column label="计算公式" align="center" prop="expressions" />
-        <el-table-column label="收费金额" align="center" prop="testItemCharge" />
-        <el-table-column label="单位" align="center" prop="testItemUnit" />
-        <el-table-column label="结果精度" align="center" prop="testItemPrecision" />
-        <el-table-column label="项目系数" align="center" prop="modulus" />
-        <el-table-column label="相关方程" align="center" prop="correlativeEquation" />
-        <el-table-column label="显示类型" align="center" prop="displayType" />
-        <el-table-column label="对照Key" align="center" prop="correspondKey" />
-        <el-table-column label="操作规程文件" align="center" prop="regulationFile" />
-        <el-table-column label="知识库文件" align="center" prop="repositoryFile" />
-        <el-table-column label="检验方法" align="center" prop="testMethod" />
-        <el-table-column label="试剂用量" align="center" prop="reagentDosage" />
-        <el-table-column label="自定义码" align="center" prop="customCode" />
-        <el-table-column label="拼音码" align="center" prop="spellCode" />
-        <el-table-column label="五笔码" align="center" prop="strokeCode" />
-        <el-table-column label="状态" align="center" prop="stateFlag" />
-        <el-table-column label="标准名称" align="center" prop="standardName" />
-        <el-table-column label="项目总分类" align="center" prop="testItemTotalClass" />
-        <el-table-column label="体检关联码" align="center" prop="pesId" />
-        <el-table-column
-          label="操作"
-          align="center"
-          fixed="right"
-          class-name="small-padding fixed-width"
+      <div ref="tableWrapperRef" class="flex flex-row flex-1 overflow-hidden">
+        <el-table
+          v-loading="loading"
+          border
+          :data="testItemList"
+          :height="tableHeight"
+          @selection-change="handleSelectionChange"
         >
-          <template #default="scope">
-            <el-tooltip content="修改" placement="top">
-              <el-button
-                link
-                type="primary"
-                icon="Edit"
-                @click="handleUpdate(scope.row)"
-                v-hasPermi="['his:testItem:edit']"
-              ></el-button>
-            </el-tooltip>
-            <el-tooltip content="删除" placement="top">
-              <el-button
-                link
-                type="primary"
-                icon="Delete"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['his:testItem:remove']"
-              ></el-button>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column type="selection" width="55" align="center" />
+          <el-table-column label="项目ID" align="center" prop="testItemId" v-if="false" />
+          <el-table-column label="项目代码" align="center" prop="testItemCode" />
+          <el-table-column label="排序号" align="center" prop="testItemSort" />
+          <el-table-column label="中文名称" align="center" prop="chineseName" />
+          <el-table-column label="中文简称" align="center" prop="chineseShortName" />
+          <el-table-column label="英文名称" align="center" prop="englishName" />
+          <el-table-column label="英文简称" align="center" prop="englishShortName" />
+          <el-table-column label="标准代码" align="center" prop="standardId" />
+          <el-table-column label="HIS代码" align="center" prop="hisId" />
+          <el-table-column label="老系统代码" align="center" prop="lisId" />
+          <el-table-column label="医保代码" align="center" prop="medicalId" />
+          <el-table-column label="项目类型:计算类、非计算类" align="center" prop="testItemType" />
+          <el-table-column label="项目分类" align="center" prop="testItemClass" />
+          <el-table-column label="计算公式" align="center" prop="expressions" />
+          <el-table-column label="收费金额" align="center" prop="testItemCharge" />
+          <el-table-column label="单位" align="center" prop="testItemUnit" />
+          <el-table-column label="结果精度" align="center" prop="testItemPrecision" />
+          <el-table-column label="项目系数" align="center" prop="modulus" />
+          <el-table-column label="相关方程" align="center" prop="correlativeEquation" />
+          <el-table-column label="显示类型" align="center" prop="displayType" />
+          <el-table-column label="对照Key" align="center" prop="correspondKey" />
+          <el-table-column label="操作规程文件" align="center" prop="regulationFile" />
+          <el-table-column label="知识库文件" align="center" prop="repositoryFile" />
+          <el-table-column label="检验方法" align="center" prop="testMethod" />
+          <el-table-column label="试剂用量" align="center" prop="reagentDosage" />
+          <el-table-column label="自定义码" align="center" prop="customCode" />
+          <el-table-column label="拼音码" align="center" prop="spellCode" />
+          <el-table-column label="五笔码" align="center" prop="strokeCode" />
+          <el-table-column label="状态" align="center" prop="stateFlag" />
+          <el-table-column label="标准名称" align="center" prop="standardName" />
+          <el-table-column label="项目总分类" align="center" prop="testItemTotalClass" />
+          <el-table-column label="体检关联码" align="center" prop="pesId" />
+          <el-table-column
+            label="操作"
+            align="center"
+            fixed="right"
+            class-name="small-padding fixed-width"
+          >
+            <template #default="scope">
+              <el-tooltip content="修改" placement="top">
+                <el-button
+                  link
+                  type="primary"
+                  icon="Edit"
+                  @click="handleUpdate(scope.row)"
+                  v-hasPermi="['his:testItem:edit']"
+                ></el-button>
+              </el-tooltip>
+              <el-tooltip content="删除" placement="top">
+                <el-button
+                  link
+                  type="primary"
+                  icon="Delete"
+                  @click="handleDelete(scope.row)"
+                  v-hasPermi="['his:testItem:remove']"
+                ></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
 
       <pagination
+        ref="paginationRef"
         v-show="total > 0"
         :total="total"
         v-model:page="queryParams.pageNum"
@@ -190,95 +178,164 @@
       />
     </el-card>
     <!-- 添加或修改检验项目对话框 -->
-    <el-dialog
-      :title="dialog.title"
-      v-model="dialog.visible"
-      width="500px"
-      append-to-body
-      draggable
-    >
-      <el-form ref="testItemFormRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="项目代码" prop="testItemCode">
-          <el-input v-model="form.testItemCode" placeholder="请输入项目代码" />
-        </el-form-item>
-        <el-form-item label="中文名称" prop="chineseName">
-          <el-input v-model="form.chineseName" placeholder="请输入中文名称" />
-        </el-form-item>
-        <el-form-item label="中文简称" prop="chineseShortName">
-          <el-input v-model="form.chineseShortName" placeholder="请输入中文简称" />
-        </el-form-item>
-        <el-form-item label="英文名称" prop="englishName">
-          <el-input v-model="form.englishName" placeholder="请输入英文名称" />
-        </el-form-item>
-        <el-form-item label="英文简称" prop="englishShortName">
-          <el-input v-model="form.englishShortName" placeholder="请输入英文简称" />
-        </el-form-item>
-        <el-form-item label="排序号" prop="testItemSort">
-          <el-input v-model="form.testItemSort" placeholder="请输入排序号" />
-        </el-form-item>
-        <el-form-item label="标准代码" prop="standardId">
-          <el-input v-model="form.standardId" placeholder="请输入标准代码" />
-        </el-form-item>
-        <el-form-item label="HIS代码" prop="hisId">
-          <el-input v-model="form.hisId" placeholder="请输入HIS代码" />
-        </el-form-item>
-        <el-form-item label="老系统代码" prop="lisId">
-          <el-input v-model="form.lisId" placeholder="请输入老系统代码" />
-        </el-form-item>
-        <el-form-item label="医保代码" prop="medicalId">
-          <el-input v-model="form.medicalId" placeholder="请输入医保代码" />
-        </el-form-item>
-        <el-form-item label="项目分类" prop="testItemClass">
-          <el-input v-model="form.testItemClass" placeholder="请输入项目分类" />
-        </el-form-item>
-        <el-form-item label="计算公式" prop="expressions">
-          <el-input v-model="form.expressions" placeholder="请输入计算公式" />
-        </el-form-item>
-        <el-form-item label="收费金额" prop="testItemCharge">
-          <el-input v-model="form.testItemCharge" placeholder="请输入收费金额" />
-        </el-form-item>
-        <el-form-item label="单位" prop="testItemUnit">
-          <el-input v-model="form.testItemUnit" placeholder="请输入单位" />
-        </el-form-item>
-        <el-form-item label="项目系数" prop="modulus">
-          <el-input v-model="form.modulus" placeholder="请输入项目系数" />
-        </el-form-item>
-        <el-form-item label="相关方程" prop="correlativeEquation">
-          <el-input v-model="form.correlativeEquation" placeholder="请输入相关方程" />
-        </el-form-item>
-        <el-form-item label="对照Key" prop="correspondKey">
-          <el-input v-model="form.correspondKey" placeholder="请输入对照Key" />
-        </el-form-item>
-        <el-form-item label="操作规程文件" prop="regulationFile">
-          <file-upload v-model="form.regulationFile" />
-        </el-form-item>
-        <el-form-item label="知识库文件" prop="repositoryFile">
-          <file-upload v-model="form.repositoryFile" />
-        </el-form-item>
-        <el-form-item label="检验方法" prop="testMethod">
-          <el-input v-model="form.testMethod" placeholder="请输入检验方法" />
-        </el-form-item>
-        <el-form-item label="试剂用量" prop="reagentDosage">
-          <el-input v-model="form.reagentDosage" placeholder="请输入试剂用量" />
-        </el-form-item>
-        <el-form-item label="自定义码" prop="customCode">
-          <el-input v-model="form.customCode" placeholder="请输入自定义码" />
-        </el-form-item>
-        <el-form-item label="拼音码" prop="spellCode">
-          <el-input v-model="form.spellCode" placeholder="请输入拼音码" />
-        </el-form-item>
-        <el-form-item label="五笔码" prop="strokeCode">
-          <el-input v-model="form.strokeCode" placeholder="请输入五笔码" />
-        </el-form-item>
-        <el-form-item label="标准名称" prop="standardName">
-          <el-input v-model="form.standardName" placeholder="请输入标准名称" />
-        </el-form-item>
-        <el-form-item label="项目总分类" prop="testItemTotalClass">
-          <el-input v-model="form.testItemTotalClass" placeholder="请输入项目总分类" />
-        </el-form-item>
-        <el-form-item label="体检关联码" prop="pesId">
-          <el-input v-model="form.pesId" placeholder="请输入体检关联码" />
-        </el-form-item>
+    <el-dialog :title="dialog.title" v-model="dialog.visible" width="800px" append-to-body>
+      <el-form ref="testItemFormRef" :model="form" :rules="rules" label-width="100px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="排序号" prop="testItemSort">
+              <el-input v-model="form.testItemSort" placeholder="请输入排序号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="中文名称" prop="chineseName">
+              <el-input v-model="form.chineseName" placeholder="请输入中文名称" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="中文简称" prop="chineseShortName">
+              <el-input v-model="form.chineseShortName" placeholder="请输入中文简称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="英文名称" prop="englishName">
+              <el-input v-model="form.englishName" placeholder="请输入英文名称" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="英文简称" prop="englishShortName">
+              <el-input v-model="form.englishShortName" placeholder="请输入英文简称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="标准代码" prop="standardId">
+              <el-input v-model="form.standardId" placeholder="请输入标准代码" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="HIS代码" prop="hisId">
+              <el-input v-model="form.hisId" placeholder="请输入HIS代码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="老系统代码" prop="lisId">
+              <el-input v-model="form.lisId" placeholder="请输入老系统代码" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="医保代码" prop="medicalId">
+              <el-input v-model="form.medicalId" placeholder="请输入医保代码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目分类" prop="testItemClass">
+              <el-input v-model="form.testItemClass" placeholder="请输入项目分类" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="计算公式" prop="expressions">
+              <el-input v-model="form.expressions" placeholder="请输入计算公式" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="收费金额" prop="testItemCharge">
+              <el-input v-model="form.testItemCharge" placeholder="请输入收费金额" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="单位" prop="testItemUnit">
+              <el-input v-model="form.testItemUnit" placeholder="请输入单位" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目系数" prop="modulus">
+              <el-input v-model="form.modulus" placeholder="请输入项目系数" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="相关方程" prop="correlativeEquation">
+              <el-input v-model="form.correlativeEquation" placeholder="请输入相关方程" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="对照Key" prop="correspondKey">
+              <el-input v-model="form.correspondKey" placeholder="请输入对照Key" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="操作规程文件" prop="regulationFile">
+              <file-upload v-model="form.regulationFile" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="知识库文件" prop="repositoryFile">
+              <file-upload v-model="form.repositoryFile" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="检验方法" prop="testMethod">
+              <el-input v-model="form.testMethod" placeholder="请输入检验方法" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="试剂用量" prop="reagentDosage">
+              <el-input v-model="form.reagentDosage" placeholder="请输入试剂用量" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="自定义码" prop="customCode">
+              <el-input v-model="form.customCode" placeholder="请输入自定义码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="拼音码" prop="spellCode">
+              <el-input v-model="form.spellCode" placeholder="请输入拼音码" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="五笔码" prop="strokeCode">
+              <el-input v-model="form.strokeCode" placeholder="请输入五笔码" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="标准名称" prop="standardName">
+              <el-input v-model="form.standardName" placeholder="请输入标准名称" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="项目总分类" prop="testItemTotalClass">
+              <el-input v-model="form.testItemTotalClass" placeholder="请输入项目总分类" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="体检关联码" prop="pesId">
+              <el-input v-model="form.pesId" placeholder="请输入体检关联码" />
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -320,7 +377,6 @@ const dialog = reactive<DialogOption>({
 });
 
 const initFormData: TestItemForm = {
-  testItemId: undefined,
   testItemCode: undefined,
   testItemSort: undefined,
   chineseName: undefined,
@@ -352,13 +408,13 @@ const initFormData: TestItemForm = {
   standardName: undefined,
   testItemTotalClass: undefined,
   pesId: undefined,
+  testItemId: "",
 };
 const data = reactive<PageData<TestItemForm, TestItemQuery>>({
   form: { ...initFormData },
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    testItemId: undefined,
     testItemCode: undefined,
     testItemSort: undefined,
     chineseName: undefined,
@@ -391,6 +447,7 @@ const data = reactive<PageData<TestItemForm, TestItemQuery>>({
     testItemTotalClass: undefined,
     pesId: undefined,
     params: {},
+    testItemId: "",
   },
   rules: {},
 });
@@ -404,6 +461,37 @@ const getList = async () => {
   testItemList.value = res.rows;
   total.value = res.total;
   loading.value = false;
+};
+
+const tableWrapperRef = ref(null);
+const editButtonsRef = ref(null);
+const paginationRef = ref(null);
+// 计算高度
+const tableHeight = ref("500px"); // 使用 ref 而非 computed
+
+const updateHeight = () => {
+  setTimeout(() => {
+    if (tableWrapperRef.value) {
+      const pageinationHeight = paginationRef.value?.$el?.clientHeight || 0;
+      const editButtonsHeight = editButtonsRef.value?.$el?.clientHeight || 0;
+      const tabHeightCale =
+        tableWrapperRef.value.clientHeight - pageinationHeight - editButtonsHeight - 40;
+      console.log(
+        "tabHeightCale",
+        tabHeightCale,
+        "pageinationHeight",
+        pageinationHeight,
+        "editButtonsHeight",
+        editButtonsHeight,
+      );
+      if (tabHeightCale > 500) {
+        queryParams.value.pageSize = 20;
+      } else if (tabHeightCale < 500) {
+        queryParams.value.pageSize = 10;
+      }
+      tableHeight.value = tabHeightCale + "px";
+    }
+  }, 150);
 };
 
 /** 取消按钮 */
@@ -495,5 +583,11 @@ const handleExport = () => {
 
 onMounted(() => {
   getList();
+  updateHeight(); // 初始计算
+  window.addEventListener("resize", updateHeight); // 监听窗口变化
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateHeight); // 清理监听
 });
 </script>

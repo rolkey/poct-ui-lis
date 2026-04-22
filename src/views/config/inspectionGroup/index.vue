@@ -50,7 +50,7 @@
 
     <el-card shadow="never" class="flex flex-col flex-1 table-card min-h-0 overflow-hidden">
       <template #header>
-        <el-row :gutter="10" class="mb8">
+        <el-row :gutter="10" class="mb-[6px]">
           <el-col :span="1.5">
             <el-button
               type="primary"

@@ -16,6 +16,7 @@ export interface DeptVO extends BaseEntity {
   parentId: number | string;
   children: DeptVO[];
   deptId: number | string;
+  standDeptId: string; // 标准科室ID
   deptName: string;
   deptCategory: string;
   orderNum: number;

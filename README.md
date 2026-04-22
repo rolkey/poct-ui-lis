@@ -30,3 +30,10 @@ scp ./dist.tar.gz db12_drg:/var/www/ && ssh db12_drg "cd /var/www && tar -xzf di
   Session   字段长度对齐：inspectionGroup 表格字段显示长度调整
   Continue  opencode -s ses_257354008ffe4h8C3Vsv8SfZPU
 ```
+
+## 参考图片调整字段长度
+
+```
+  Session   Charge item table field length adjustment
+  Continue  opencode -s ses_24d694db1ffewZw37P4OwDJ3lu
+```
