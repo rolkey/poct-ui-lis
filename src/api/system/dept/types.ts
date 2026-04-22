@@ -35,6 +35,7 @@ export interface DeptVO extends BaseEntity {
 export interface DeptTreeVO extends BaseEntity {
   id: number | string;
   label: string;
+  standDeptId: string;
   parentId: number | string;
   weight: number;
   children: DeptTreeVO[];

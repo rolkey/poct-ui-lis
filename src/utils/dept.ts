@@ -8,6 +8,8 @@ export const filterDisabledDept = (deptList: DeptTreeVO[]) => {
     }
     if (dept.children && dept.children.length) {
       dept.children = filterDisabledDept(dept.children);
+    } else if (!(dept.standDeptId && dept.standDeptId.startsWith("30."))) {
+      return false;
     }
     return true;
   });
