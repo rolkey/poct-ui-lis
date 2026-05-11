@@ -253,6 +253,9 @@ export interface ComparisonDetailForm extends BaseEntity {
   sampleResult?: string;
 }
 
+// Alias for backward compatibility
+export type QcComparisonDetailVO = ComparisonDetailVO;
+
 export interface ComparisonDetailQuery extends PageQuery {
   /**
    * 明细ID

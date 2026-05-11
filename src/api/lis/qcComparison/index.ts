@@ -76,6 +76,21 @@ export const delQcComparison = (comparisonId: string | number | Array<string | n
 };
 
 /**
+ * 查询比对明细列表（别名）
+ * @param comparisonId 比对ID
+ * @returns {*}
+ */
+export const listQcComparisonDetail = (
+  comparisonId?: string | number,
+): AxiosPromise<ComparisonDetailVO[]> => {
+  return request({
+    url: `/${hisLis()}/qc/comparison/detail/list`,
+    method: "get",
+    params: { comparisonId },
+  });
+};
+
+/**
  * 查询比对明细列表
  * @param query
  * @returns {*}
